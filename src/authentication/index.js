@@ -121,7 +121,7 @@ function Authentication(auth0, options) {
  * @see {@link https://auth0.com/docs/api/authentication#authorize-client}
  * @see {@link https://auth0.com/docs/api/authentication#social}
  */
-Authentication.prototype.buildAuthorizeUrl = function(options) {
+Authentication.prototype.buildAuthorizeUrl = function (options) {
   var params;
   var qString;
 
@@ -159,7 +159,7 @@ Authentication.prototype.buildAuthorizeUrl = function(options) {
       nonce: {
         type: 'string',
         message: 'nonce option is required',
-        condition: function(o) {
+        condition: function (o) {
           return (
             o.responseType.indexOf('code') === -1 &&
             o.responseType.indexOf('id_token') !== -1
@@ -219,7 +219,7 @@ Authentication.prototype.buildAuthorizeUrl = function(options) {
  * @param {Boolean} [options.federated] tells Auth0 if it should logout the user also from the IdP.
  * @see {@link https://auth0.com/docs/api/authentication#logout}
  */
-Authentication.prototype.buildLogoutUrl = function(options) {
+Authentication.prototype.buildLogoutUrl = function (options) {
   var params;
   var qString;
 
@@ -286,7 +286,7 @@ Authentication.prototype.buildLogoutUrl = function(options) {
  * @param {tokenCallback} cb function called with the result of the request
  * @see Requires [`password` grant]{@link https://auth0.com/docs/api-auth/grant/password}. For more information, read {@link https://auth0.com/docs/clients/client-grant-types}.
  */
-Authentication.prototype.loginWithDefaultDirectory = function(options, cb) {
+Authentication.prototype.loginWithDefaultDirectory = function (options, cb) {
   assert.check(
     options,
     { type: 'object', message: 'options parameter is not valid' },
@@ -324,7 +324,7 @@ Authentication.prototype.loginWithDefaultDirectory = function(options, cb) {
  * @param {tokenCallback} cb function called with the result of the request
  * @see Requires [`http://auth0.com/oauth/grant-type/password-realm` grant]{@link https://auth0.com/docs/api-auth/grant/password#realm-support}. For more information, read {@link https://auth0.com/docs/clients/client-grant-types}.
  */
-Authentication.prototype.login = function(options, cb) {
+Authentication.prototype.login = function (options, cb) {
   assert.check(
     options,
     { type: 'object', message: 'options parameter is not valid' },
@@ -356,7 +356,7 @@ Authentication.prototype.login = function(options, cb) {
  * @method oauthToken
  * @private
  */
-Authentication.prototype.oauthToken = function(options, cb) {
+Authentication.prototype.oauthToken = function (options, cb) {
   var url;
   var body;
 
@@ -366,7 +366,7 @@ Authentication.prototype.oauthToken = function(options, cb) {
   });
   assert.check(cb, { type: 'function', message: 'cb parameter is not valid' });
 
-  url = urljoin(this.baseOptions.rootUrl, 'oauth', 'token');
+  url = urljoin(this.baseOptions.rootUrl, 'token');
 
   body = objectHelper
     .merge(this.baseOptions, ['clientID', 'scope', 'audience'])
@@ -416,7 +416,7 @@ Authentication.prototype.oauthToken = function(options, cb) {
  * @param {String} [options.device] name of the device/browser where the Auth was requested
  * @param {tokenCallback} cb function called with the result of the request
  */
-Authentication.prototype.loginWithResourceOwner = function(options, cb) {
+Authentication.prototype.loginWithResourceOwner = function (options, cb) {
   var url;
   var body;
 
@@ -459,7 +459,7 @@ Authentication.prototype.loginWithResourceOwner = function(options, cb) {
  * @param {Boolean} withActiveDirectories this parameter is not used anymore. It's here to be backward compatible
  * @param {Function} cb
  */
-Authentication.prototype.getSSOData = function(withActiveDirectories, cb) {
+Authentication.prototype.getSSOData = function (withActiveDirectories, cb) {
   /* istanbul ignore if  */
   if (!this.auth0) {
     this.auth0 = new WebAuth(this.baseOptions);
@@ -483,7 +483,7 @@ Authentication.prototype.getSSOData = function(withActiveDirectories, cb) {
       connection: ssodataInformation.lastUsedConnection,
       timeout: 5000
     },
-    function(err, result) {
+    function (err, result) {
       if (err) {
         if (err.error === 'login_required') {
           return cb(null, { sso: false });
@@ -529,7 +529,7 @@ Authentication.prototype.getSSOData = function(withActiveDirectories, cb) {
  * @param {userInfoCallback} cb
  * @see   {@link https://auth0.com/docs/api/authentication#get-user-info}
  */
-Authentication.prototype.userInfo = function(accessToken, cb) {
+Authentication.prototype.userInfo = function (accessToken, cb) {
   var url;
 
   assert.check(accessToken, {
@@ -553,7 +553,7 @@ Authentication.prototype.userInfo = function(accessToken, cb) {
  * @method getChallenge
  * @param {callback} cb
  */
-Authentication.prototype.getChallenge = function(cb) {
+Authentication.prototype.getChallenge = function (cb) {
   assert.check(cb, { type: 'function', message: 'cb parameter is not valid' });
 
   if (!this.baseOptions.state) {
@@ -590,7 +590,7 @@ Authentication.prototype.getChallenge = function(cb) {
  * @see   {@link https://auth0.com/docs/api/authentication#delegation}
  * @see Requires [http://auth0.com/oauth/grant-type/password-realm]{@link https://auth0.com/docs/api-auth/grant/password#realm-support}. For more information, read {@link https://auth0.com/docs/clients/client-grant-types}.
  */
-Authentication.prototype.delegation = function(options, cb) {
+Authentication.prototype.delegation = function (options, cb) {
   var url;
   var body;
 
@@ -622,7 +622,7 @@ Authentication.prototype.delegation = function(options, cb) {
  * @private
  * @param {Function} cb
  */
-Authentication.prototype.getUserCountry = function(cb) {
+Authentication.prototype.getUserCountry = function (cb) {
   var url;
 
   assert.check(cb, { type: 'function', message: 'cb parameter is not valid' });
