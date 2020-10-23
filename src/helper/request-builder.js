@@ -14,23 +14,23 @@ function RequestWrapper(req) {
   this.headers = req._header;
 }
 
-RequestWrapper.prototype.abort = function() {
+RequestWrapper.prototype.abort = function () {
   this.request.abort();
 };
 
-RequestWrapper.prototype.getMethod = function() {
+RequestWrapper.prototype.getMethod = function () {
   return this.method;
 };
 
-RequestWrapper.prototype.getBody = function() {
+RequestWrapper.prototype.getBody = function () {
   return this.body;
 };
 
-RequestWrapper.prototype.getUrl = function() {
+RequestWrapper.prototype.getUrl = function () {
   return this.url;
 };
 
-RequestWrapper.prototype.getHeaders = function() {
+RequestWrapper.prototype.getHeaders = function () {
   return this.headers;
 };
 
@@ -40,22 +40,22 @@ function RequestObj(req) {
   this.request = req;
 }
 
-RequestObj.prototype.set = function(key, value) {
+RequestObj.prototype.set = function (key, value) {
   this.request = this.request.set(key, value);
   return this;
 };
 
-RequestObj.prototype.send = function(body) {
+RequestObj.prototype.send = function (body) {
   this.request = this.request.send(objectHelper.trimUserDetails(body));
   return this;
 };
 
-RequestObj.prototype.withCredentials = function() {
+RequestObj.prototype.withCredentials = function () {
   this.request = this.request.withCredentials();
   return this;
 };
 
-RequestObj.prototype.end = function(cb) {
+RequestObj.prototype.end = function (cb) {
   this.request.end(cb);
   return new RequestWrapper(this.request);
 };
@@ -71,7 +71,7 @@ function RequestBuilder(options) {
   this._universalLoginPage = options.universalLoginPage;
 }
 
-RequestBuilder.prototype.setCommonConfiguration = function(
+RequestBuilder.prototype.setCommonConfiguration = function (
   ongoingRequest,
   options
 ) {
@@ -86,7 +86,7 @@ RequestBuilder.prototype.setCommonConfiguration = function(
   }
 
   var headers = this.headers;
-  ongoingRequest = ongoingRequest.set('Content-Type', 'application/json');
+  ongoingRequest = ongoingRequest.set('Content-Type', 'application/x-www-form-urlencoded');
 
   var keys = Object.keys(this.headers);
 
@@ -94,17 +94,17 @@ RequestBuilder.prototype.setCommonConfiguration = function(
     ongoingRequest = ongoingRequest.set(keys[a], headers[keys[a]]);
   }
 
-  if (this._sendTelemetry) {
-    ongoingRequest = ongoingRequest.set(
-      'Auth0-Client',
-      this.getTelemetryData()
-    );
-  }
+  // if (this._sendTelemetry) {
+  //   ongoingRequest = ongoingRequest.set(
+  //     'Auth0-Client',
+  //     this.getTelemetryData()
+  //   );
+  // }
 
   return ongoingRequest;
 };
 
-RequestBuilder.prototype.getTelemetryData = function() {
+RequestBuilder.prototype.getTelemetryData = function () {
   var telemetryName = this._universalLoginPage ? 'auth0.js-ulp' : 'auth0.js';
   var clientInfo = { name: telemetryName, version: version.raw };
   if (this._telemetryInfo) {
@@ -116,17 +116,17 @@ RequestBuilder.prototype.getTelemetryData = function() {
   return base64Url.encode(jsonClientInfo);
 };
 
-RequestBuilder.prototype.get = function(url, options) {
+RequestBuilder.prototype.get = function (url, options) {
   return new RequestObj(this.setCommonConfiguration(request.get(url), options));
 };
 
-RequestBuilder.prototype.post = function(url, options) {
+RequestBuilder.prototype.post = function (url, options) {
   return new RequestObj(
     this.setCommonConfiguration(request.post(url), options)
   );
 };
 
-RequestBuilder.prototype.patch = function(url, options) {
+RequestBuilder.prototype.patch = function (url, options) {
   return new RequestObj(
     this.setCommonConfiguration(request.patch(url), options)
   );
