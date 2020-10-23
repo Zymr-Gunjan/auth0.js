@@ -37,7 +37,8 @@
     "publish:cdn": "ccu --trace",
     "release": "scripts/release.sh",
     "jsdocs": "jsdoc --configure .jsdoc.json --verbose",
-    "precommit": "pretty-quick --staged"
+    "precommit": "pretty-quick --staged",
+    "prepare": "npm run build"
   },
   "husky": {
     "hooks": {
